@@ -14,6 +14,9 @@ module Bonita
           bpm: {
             processes: Bpm::ProcessResource,
           },
+          identity: {
+            users: Identity::UserResource,
+          },
         }
       end
 
