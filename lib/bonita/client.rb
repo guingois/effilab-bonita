@@ -5,7 +5,9 @@ module Bonita
     class << self
       def resources
         {
-          processes: Bpm::ProcessResource,
+          bpm: {
+            processes: Bpm::ProcessResource,
+          },
         }
       end
 
@@ -25,8 +27,23 @@ module Bonita
       end
     end
 
-    self.resources.each do |k, v|
-      define_method(k) { v.new(connection: connection) }
+    resources.each do |key, value|
+      if value.is_a? Hash
+        mod = Object.const_get("Bonita::#{key.capitalize}")
+        mod.module_eval do
+          value.each do |k, v|
+            define_singleton_method(k) { v.new(connection: connection) }
+          end
+        end
+
+        define_method(key) do
+          this = self
+          mod.define_singleton_method(:connection) { this.send(:connection) } unless mod.respond_to? :connection
+          mod
+        end
+      else
+        define_method(key) { value.new(connection: connection) }
+      end
     end
 
     def initialize(options = {})
