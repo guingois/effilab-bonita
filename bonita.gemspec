@@ -33,6 +33,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'activesupport', '> 3.0', '< 5.1'
   spec.add_dependency 'resource_kit', '~> 0.1.6'
   spec.add_dependency 'kartograph', '~> 0.2.4'
+  spec.add_dependency 'virtus', '>= 1.0.5'
   spec.add_dependency 'faraday-cookie_jar', '~> 0.0.6'
 
   spec.add_development_dependency "bundler", "~> 1.14"

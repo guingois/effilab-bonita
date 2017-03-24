@@ -11,6 +11,13 @@ require 'bonita/mappings/error_mapping'
 require 'bonita/error'
 require 'bonita/error_handler'
 
+# Models
+require 'bonita/models/base_model'
+require 'bonita/models/bpm/process'
+# JSON Maps
+require 'bonita/mappings/bpm/process_mapping'
+# Resources
+require 'bonita/resources/bpm/process_resource'
 require 'bonita/middleware/csrf'
 require 'bonita/client'
 
