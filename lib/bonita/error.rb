@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Bonita
   class Error < StandardError
     attr_reader :java_exception, :error_message, :explanations, :status

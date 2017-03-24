@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module ErrorHandler
   def self.included(base)
     base.send(:resources) do
