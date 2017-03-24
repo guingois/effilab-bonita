@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Bonita
   class Client
     attr_reader :username, :password, :url, :redirect_url, :tenant
@@ -5,6 +6,11 @@ module Bonita
     class << self
       def resources
         {
+          customuserinfo: {
+            definitions: Customuserinfo::DefinitionResource,
+            values: Customuserinfo::ValueResource,
+            users: Customuserinfo::UserResource,
+          },
           bpm: {
             processes: Bpm::ProcessResource,
           },
