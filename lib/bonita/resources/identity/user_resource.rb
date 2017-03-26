@@ -10,7 +10,7 @@ module Bonita
           path '/bonita/API/identity/user'
           verb :post
           body { |object| UserMapping.representation_for(:create, object) }
-          handler(200) { |response| ap UserMapping.extract_single(response.body, :read); UserMapping.extract_single(response.body, :read) }
+          handler(200) { |response| UserMapping.extract_single(response.body, :read) }
         end
 
         action :read do
@@ -30,7 +30,7 @@ module Bonita
           path 'bonita/API/identity/user/:userId'
           verb :put
           body { |object| UserMapping.representation_for(:update, object) }
-          handler(200) { |response| UserMapping.extract_collection(response.body, :read) }
+          handler(200) { |response| UserMapping.extract_single(response.body, :read) }
         end
 
         action :delete do
@@ -38,6 +38,21 @@ module Bonita
           verb :delete
           handler(200) { true }
         end
+
+        action :enable do
+          path 'bonita/API/identity/user/:userId'
+          verb :put
+          body { |object| ap object; { enabled: "true" }.to_json }
+          handler(200) { true }
+        end
+
+        action :disable do
+          path 'bonita/API/identity/user/:userId'
+          verb :put
+          body { { enabled: "false" }.to_json }
+          handler(200) { true }
+        end
+
       end
 
       alias_method :find, :read

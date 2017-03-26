@@ -7,17 +7,19 @@ module Bonita
       kartograph do
         mapping User
 
-        property :id, scope: %i(update)
-        property :userName, scope: %i(update create)
-        property :password, scope: %i(update create)
-        property :password_confirm, scope: %i(update create)
-        property :icon, scope: %i(update create)
-        property :firstname, scope: %i(update create)
-        property :lastname, scope: %i(update create)
-        property :title, scope: %i(update create)
-        property :job_title, scope: %i(update create)
-        property :manager_id, scope: %i(update create)
-        property :enabled, scope: %i(update create)
+        property :id, scopes: %i(update)
+        property :userName, scopes: %i(update create)
+        property :password, scopes: %i(update create)
+        property :password_confirm, scopes: %i(update create)
+        property :icon, scopes: %i(update create)
+        property :firstname, scopes: %i(update create)
+        property :lastname, scopes: %i(update create)
+        property :title, scopes: %i(update create)
+        property :job_title, scopes: %i(update create)
+        property :manager_id, scopes: %i(update create)
+        property :enabled, scopes: %i(update create)
+
+        property :enabled, scope: :enabled
 
         scoped :read do
           property :last_connection
@@ -25,7 +27,6 @@ module Bonita
           property :creation_date
           property :id
           property :icon
-          property :enabled
           property :title
           property :manager_id
           property :job_title
@@ -33,6 +34,7 @@ module Bonita
           property :lastname
           property :firstname
           property :last_update_date
+          property :enabled
         end
       end
     end

@@ -59,6 +59,7 @@ module Bonita
       @url          = options[:url]
       @username     = options[:username]
       @password     = options[:password]
+      @redirect     = options[:redirect]
       @redirect_url = options[:redirect_url]
       @tenant       = options[:tenant]
     end
@@ -66,7 +67,13 @@ module Bonita
     def login!
       connection.post '/bonita/loginservice' do |req|
         req.headers['Content-Type'] = 'application/x-www-form-urlencoded'
-        req.body = { username: @username, password: @password, redirect_url: @redirect_url, tenant: @tenant }
+        req.body = {
+          username:     @username,
+          password:     @password,
+          redirect:     @redirect,
+          redirect_url: @redirect_url,
+          tenant:       @tenant,
+        }
       end
     end
 
