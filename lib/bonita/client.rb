@@ -65,16 +65,18 @@ module Bonita
     end
 
     def login!
-      connection.post '/bonita/loginservice' do |req|
-        req.headers['Content-Type'] = 'application/x-www-form-urlencoded'
-        req.body = {
-          username:     @username,
-          password:     @password,
-          redirect:     @redirect,
-          redirect_url: @redirect_url,
-          tenant:       @tenant,
-        }
-      end
+      response =
+        connection.post '/bonita/loginservice' do |req|
+          req.headers['Content-Type'] = 'application/x-www-form-urlencoded'
+          req.body = {
+            username:     @username,
+            password:     @password,
+            redirect:     @redirect,
+            redirect_url: @redirect_url,
+            tenant:       @tenant,
+          }
+        end
+      raise Bonita::AuthError, 'Unable to log in' if response.body.include?('Unable to log in')
     end
 
     def logout!
