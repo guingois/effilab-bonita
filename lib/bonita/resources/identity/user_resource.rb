@@ -29,7 +29,13 @@ module Bonita
         action :update do
           path 'bonita/API/identity/user/:userId'
           verb :put
-          body { |object| UserMapping.representation_for(:update, object) }
+          body do |object|
+            if object.is_a? Hash
+              JSON.dump(object)
+            else
+              UserMapping.representation_for(:update, object)
+            end
+          end
           handler(200) { |response| UserMapping.extract_single(response.body, :read) }
         end
 
@@ -42,20 +48,21 @@ module Bonita
         action :enable do
           path 'bonita/API/identity/user/:userId'
           verb :put
-          body { |object| ap object; { enabled: "true" }.to_json }
+          body { |object| { enabled: 'true' }.to_json }
           handler(200) { true }
         end
 
         action :disable do
           path 'bonita/API/identity/user/:userId'
           verb :put
-          body { { enabled: "false" }.to_json }
+          body { { enabled: 'false' }.to_json }
           handler(200) { true }
         end
 
       end
 
       alias_method :find, :read
+      alias_method :where, :search
     end
   end
 end

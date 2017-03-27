@@ -9,7 +9,7 @@ module Bonita
         action :instantiate, 'POST bonita/API/bpm/process/:processId/instantiation' do
           path 'bonita/API/bpm/process/:processId/instantiation'
           verb :post
-          body(&:to_json)
+          body { |object| object.to_json }
           handler(200) { |response| JSON.parse response.body }
         end
 
