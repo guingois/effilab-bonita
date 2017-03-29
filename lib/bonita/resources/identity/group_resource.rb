@@ -29,13 +29,7 @@ module Bonita
         action :update do
           path 'bonita/API/identity/group/:groupId/'
           verb :put
-          body do |object|
-            if object.is_a? Hash
-              JSON.dump(object)
-            else
-              GroupMapping.representation_for(:update, object)
-            end
-          end
+          body { |object| object.is_a? Hash ? JSON.dump(object) : GroupMapping.representation_for(:update, object) }
           handler(200) { |response| GroupMapping.extract_single(response.body, :read) }
         end
 
