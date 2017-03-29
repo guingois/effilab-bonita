@@ -17,6 +17,7 @@ module Bonita
           identity: {
             users: Identity::UserResource,
             groups: Identity::GroupResource,
+            roles: Identity::RoleResource,
           },
         }
       end
