@@ -23,6 +23,7 @@ require 'bonita/models/customuserinfo/user'
 require 'bonita/models/identity/user'
 require 'bonita/models/identity/group'
 require 'bonita/models/identity/role'
+require 'bonita/models/identity/membership'
 
 # JSON Maps
 require 'bonita/mappings/bpm/process_mapping'
@@ -32,6 +33,7 @@ require 'bonita/mappings/customuserinfo/user_mapping'
 require 'bonita/mappings/identity/user_mapping'
 require 'bonita/mappings/identity/group_mapping'
 require 'bonita/mappings/identity/role_mapping'
+require 'bonita/mappings/identity/membership_mapping'
 
 # Resources
 require 'bonita/resources/bpm/process_resource'
@@ -41,6 +43,7 @@ require 'bonita/resources/customuserinfo/user_resource'
 require 'bonita/resources/identity/user_resource'
 require 'bonita/resources/identity/group_resource'
 require 'bonita/resources/identity/role_resource'
+require 'bonita/resources/identity/membership_resource'
 
 require 'bonita/middleware/csrf'
 require 'bonita/client'

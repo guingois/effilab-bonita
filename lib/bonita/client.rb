@@ -18,6 +18,7 @@ module Bonita
             users: Identity::UserResource,
             groups: Identity::GroupResource,
             roles: Identity::RoleResource,
+            memberships: Identity::MembershipResource,
           },
         }
       end
