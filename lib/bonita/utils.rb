@@ -30,7 +30,6 @@ module Bonita
         end
 
         def mapper
-          byebug
           Object.const_get @resource.class.name.gsub('Resource', 'Mapping')
         end
 
