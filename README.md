@@ -1,8 +1,6 @@
 # BonitaBPM Ruby API Client
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/bonita`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+Unofficial API client for [Bonita API](https://effilab.atlassian.net/wiki/display/IT/Product+Launch+-+Overview)
 
 ## Installation
 
@@ -29,14 +27,15 @@ There is two way to handle this authentication logic.
 ### With a block
 
 ```ruby
-Bonita::Client.start(username: 'foo', password: 'bar') do |client|
+Bonita::Client.start(username: "YOUR_USERNAME", password: "YOUR_PASSWORD", url: "YOUR_BONITA_SERVER_URL") do |client|
   # Perform your request while authenticated using the client object
 end # Logout seamlessly when closing the block_given
 ```
 
 ### With an instance
 ```ruby
-client = Bonita::Client.new(username: 'foo', password: 'bar')
+client = Bonita::Client.new(username: "YOUR_USERNAME", password: "YOUR_PASSWORD", url: "YOUR_BONITA_SERVER_URL")
+client.login
 # perform request
 client.logout
 ```

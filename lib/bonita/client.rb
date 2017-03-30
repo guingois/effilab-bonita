@@ -25,11 +25,11 @@ module Bonita
 
       def start(options = {})
         client = new(options)
-        client.login!
+        client.login
 
         yield(client)
       ensure
-        client.logout!
+        client.logout
       end
     end
 
@@ -61,7 +61,7 @@ module Bonita
       @tenant       = options[:tenant]
     end
 
-    def login!
+    def login
       response =
         connection.post '/bonita/loginservice' do |req|
           req.headers['Content-Type'] = 'application/x-www-form-urlencoded'
@@ -76,7 +76,7 @@ module Bonita
       raise Bonita::AuthError, 'Unable to log in' if response.body.include?('Unable to log in')
     end
 
-    def logout!
+    def logout
       connection.get '/bonita/logoutservice'
     end
 
