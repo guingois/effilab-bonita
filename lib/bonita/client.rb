@@ -44,7 +44,7 @@ module Bonita
 
         define_method(key) do
           this = self
-          mod.define_singleton_method(:connection) { this.send(:connection) } unless mod.respond_to? :connection
+          mod.define_singleton_method(:connection) { this.connection }
           mod
         end
       else
@@ -73,11 +73,13 @@ module Bonita
             tenant:       @tenant,
           }
         end
+
       raise Bonita::AuthError, 'Unable to log in' if response.body.include?('Unable to log in')
+      true
     end
 
     def logout
-      connection.get '/bonita/logoutservice'
+      connection.get '/bonita/logoutservice?redirect=false'
     end
 
     def connection

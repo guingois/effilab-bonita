@@ -40,6 +40,12 @@ client.login
 client.logout
 ```
 
+## FAQ
+
+> I get a `Bonita::AuthError` inconsitently.
+
+Your first request probably make your Bonita crash and therefore unable to log back in again.
+
 ## Contributing
 
 Bug reports and pull requests are welcome on GitHub at https://github.com/Pierre Deville/bonita. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
