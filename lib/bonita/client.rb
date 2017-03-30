@@ -27,15 +27,9 @@ module Bonita
         client = new(options)
         client.login!
 
-        if block_given?
-          begin
-            yield(client)
-          ensure
-            client.logout!
-          end
-        end
-
-        client
+        yield(client)
+      ensure
+        client.logout!
       end
     end
 
