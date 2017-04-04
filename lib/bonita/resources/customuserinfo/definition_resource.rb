@@ -6,20 +6,20 @@ module Bonita
       include ErrorHandler
 
       resources do
-        action :create, 'POST API/customuserinfo/definition' do
+        action :create do
           path 'bonita/API/customuserinfo/definition'
           verb :post
           body { |object| DefinitionMapping.safe_representation_for(:create, object) }
           handler(200) { |response| DefinitionMapping.extract_single(response.body, :read) }
         end
 
-        action :delete, 'DELETE API/customuserinfo/definition/:definitionId' do
+        action :delete do
           path 'bonita/API/customuserinfo/definition/:definitionId'
           verb :delete
           handler(200) { true }
         end
 
-        action :all, 'GET /API/customuserinfo/definition' do
+        action :all do
           query_keys :c, :p
           path 'bonita/API/customuserinfo/definition'
           verb :get

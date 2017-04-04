@@ -6,7 +6,7 @@ module Bonita
       include ErrorHandler
 
       resources do
-        action :search, 'GET API/customuserinfo/user' do
+        action :search do
           query_keys :s, :f, :o, :c
           path 'bonita/API/customuserinfo/user'
           verb :get

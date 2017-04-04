@@ -6,7 +6,7 @@ module Bonita
       include ErrorHandler
 
       resources do
-        action :associate_definition_to_user, 'PUT API/customuserinfo/value/:userId/:definitionId' do
+        action :associate_definition_to_user do
           path 'bonita/API/customuserinfo/value/:userId/:definitionId'
           verb :put
           body { |object| object.select { |k| k == :value }.to_json }
