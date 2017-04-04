@@ -9,7 +9,7 @@ module Bonita
         action :create do
           path '/bonita/API/identity/user'
           verb :post
-          body { |object| UserMapping.representation_for(:create, object) }
+          body { |object| UserMapping.safe_representation_for(:create, object) }
           handler(200) { |response| UserMapping.extract_single(response.body, :read) }
         end
 

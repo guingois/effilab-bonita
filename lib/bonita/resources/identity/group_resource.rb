@@ -9,7 +9,7 @@ module Bonita
         action :create do
           path '/bonita/API/identity/group'
           verb :post
-          body { |object| GroupMapping.representation_for(:create, object) }
+          body { |object| GroupMapping.safe_representation_for(:create, object) }
           handler(200) { |response| GroupMapping.extract_single(response.body, :read) }
         end
 

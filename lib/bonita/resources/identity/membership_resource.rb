@@ -9,7 +9,7 @@ module Bonita
         action :create do
           path '/bonita/API/identity/membership'
           verb :post
-          body { |object| MembershipMapping.representation_for(:create, object) }
+          body { |object| MembershipMapping.safe_representation_for(:create, object) }
           handler(200) { |response| MembershipMapping.extract_single(response.body, :read) }
         end
 

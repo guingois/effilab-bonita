@@ -9,7 +9,7 @@ module Bonita
         action :create, 'POST API/customuserinfo/definition' do
           path 'bonita/API/customuserinfo/definition'
           verb :post
-          body { |object| DefinitionMapping.representation_for(:create, object) }
+          body { |object| DefinitionMapping.safe_representation_for(:create, object) }
           handler(200) { |response| DefinitionMapping.extract_single(response.body, :read) }
         end
 
