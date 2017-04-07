@@ -26,8 +26,6 @@ module Bonita
           handler(200) { true }
         end
       end
-
-      alias_method :where, :search
     end
   end
 end

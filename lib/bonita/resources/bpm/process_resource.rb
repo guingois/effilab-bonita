@@ -33,9 +33,6 @@ module Bonita
           handler(200) { |response| ProcessMapping.extract_single(response.body, :read) }
         end
       end
-
-      alias_method :where, :search
-      alias_method :read, :find
     end
   end
 end

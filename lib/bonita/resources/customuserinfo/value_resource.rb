@@ -13,8 +13,6 @@ module Bonita
           handler(200) { true }
         end
       end
-
-      alias_method :create, :associate_definition_to_user
     end
   end
 end

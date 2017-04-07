@@ -42,7 +42,7 @@ module Bonita
         action :enable do
           path 'bonita/API/identity/user/:userId'
           verb :put
-          body { |object| { enabled: 'true' }.to_json }
+          body { |_object| { enabled: 'true' }.to_json }
           handler(200) { true }
         end
 
@@ -52,11 +52,7 @@ module Bonita
           body { { enabled: 'false' }.to_json }
           handler(200) { true }
         end
-
       end
-
-      alias_method :find, :read
-      alias_method :where, :search
     end
   end
 end
