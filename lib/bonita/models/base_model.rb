@@ -1,9 +1,25 @@
 # frozen_string_literal: true
-require 'virtus'
 
 module Bonita
   class BaseModel
-    include Virtus.model
+    class << self
+      attr_reader :attributes
+
+      def attribute(name)
+        @attributes ||= []
+
+        return if @attributes.include? name
+
+        @attributes << name
+        send(:attr_accessor, name)
+      end
+    end
+
+    def initialize(params = {})
+      self.class.attributes.each do |key|
+        instance_variable_set("@#{key}", params[key])
+      end
+    end
 
     def inspect
       values = Hash[instance_variables.map { |name| [name, instance_variable_get(name)] }]

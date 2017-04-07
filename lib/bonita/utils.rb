@@ -13,6 +13,7 @@ class Hash
   end
 end
 
+
 module Kartograph::DSL::ClassMethods
   # Implementation of Kartograph::DSL#representation_for but replace nil values in object with empty strings
   def safe_representation_for(scope, object, dumper = Kartograph.default_dumper)
