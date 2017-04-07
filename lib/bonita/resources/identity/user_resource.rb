@@ -29,7 +29,7 @@ module Bonita
         action :update do
           path 'bonita/API/identity/user/:userId'
           verb :put
-          body { |object| object.is_a? Hash ? JSON.dump(object) : UserMapping.representation_for(:update, object) }
+          body { |object| Bonita::Utils::UpdateHandler.new(object, UserMapping).call }
           handler(200) { |response| UserMapping.extract_single(response.body, :read) }
         end
 

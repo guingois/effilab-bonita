@@ -47,6 +47,23 @@ module Bonita
         end
     end
 
+    class UpdateHandler
+      include MappingResolver
+
+      def initialize(object, mapper)
+        @object = object
+        @mapper = mapper
+      end
+
+      def call
+        if @object.is_a? Hash
+          JSON.dump @object
+        else
+          @mapper.representation_for(:update, @response)
+        end
+      end
+    end
+
     class SearchHandler
       include MappingResolver
 

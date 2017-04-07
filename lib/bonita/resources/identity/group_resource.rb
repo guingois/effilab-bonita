@@ -9,7 +9,7 @@ module Bonita
         action :create do
           path '/bonita/API/identity/group'
           verb :post
-          body { |object| GroupMapping.safe_representation_for(:create, object) }
+          body { |object| GroupMapping.representation_for(:create, object) }
           handler(200) { |response| GroupMapping.extract_single(response.body, :read) }
         end
 
@@ -29,10 +29,9 @@ module Bonita
         action :update do
           path 'bonita/API/identity/group/:groupId/'
           verb :put
-          body { |object| object.is_a? Hash ? JSON.dump(object) : GroupMapping.representation_for(:update, object) }
+          body { |object| Bonita::Utils::UpdateHandler.new(object, GroupMapping).call }
           handler(200) { |response| GroupMapping.extract_single(response.body, :read) }
         end
-
         action :delete do
           path 'bonita/API/identity/group/:groupId'
           verb :delete

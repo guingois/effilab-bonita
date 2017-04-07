@@ -29,7 +29,7 @@ module Bonita
         action :update do
           path 'bonita/API/identity/role/:roleId/'
           verb :put
-          body { |object| object.is_a? Hash ? JSON.dump(object) : RoleMapping.representation_for(:update, object) }
+          body { |object| Bonita::Utils::UpdateHandler.new(object, RoleMapping).call }
           handler(200) { true }
         end
 

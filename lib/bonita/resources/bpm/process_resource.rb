@@ -29,7 +29,7 @@ module Bonita
         action :update do
           path 'bonita/API/bpm/process/:processId'
           verb :put
-          body { |object| object.is_a? Hash ? JSON.dump(object) : ProcessMapping.representation_for(:update, object) }
+          body { |object| Bonita::Utils::UpdateHandler.new(object, ProcessMapping).call }
           handler(200) { |response| ProcessMapping.extract_single(response.body, :read) }
         end
       end
