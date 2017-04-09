@@ -8,14 +8,11 @@ module Bonita
     kartograph do
       mapping Error
 
-      property :exception, scopes: [:read]
-      property :message, scopes: [:read]
-      property :explanations, scopes: [:read]
-    end
-
-    def self.fail_with(klass, content)
-      error = extract_single(content, :read)
-      raise klass, error.message
+      scoped :read do
+        property :exception
+        property :message
+        property :explanations
+      end
     end
   end
 end

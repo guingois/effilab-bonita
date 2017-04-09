@@ -60,7 +60,7 @@ module Bonita
         if @object.is_a? Hash
           JSON.dump @object
         else
-          @mapper.representation_for(:update, @response)
+          @mapper.representation_for(:update, @object)
         end
       end
     end

@@ -7,14 +7,23 @@ module Bonita
       kartograph do
         mapping Role
 
-        property :id, scopes: %i(read)
-        property :name, scopes: %i(read create update)
-        property :displayName, scopes: %i(read create update)
-        property :description, scopes: %i(read create update)
-        property :creation_date, scopes: %i(read)
-        property :created_by_user_id, scopes: %i(read)
-        property :last_update_date, scopes: %i(read)
-        property :icon, scopes: %i(read create update)
+        scoped :read do
+          property :id
+          property :name
+          property :displayName
+          property :description
+          property :creation_date
+          property :created_by_user_id
+          property :last_update_date
+          property :icon
+        end
+
+        scoped :update, :create do
+          property :name
+          property :displayName
+          property :description
+          property :icon
+        end
       end
     end
   end

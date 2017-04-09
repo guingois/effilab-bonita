@@ -7,12 +7,6 @@ module Bonita
       kartograph do
         mapping Group
 
-        property :icon, scopes: %i(create)
-        property :name, scopes: %i(create update)
-        property :displayName, scopes: %i(create update)
-        property :parent_group_id, scopes: %i(create)
-        property :description, scopes: %i(create)
-
         scoped :read do
           property :id
           property :creation_date
@@ -25,6 +19,19 @@ module Bonita
           property :parent_path
           property :parent_group_id
           property :last_update_date
+        end
+
+        scoped :create do
+          property :icon
+          property :name
+          property :displayName
+          property :parent_group_id
+          property :description
+        end
+
+        scoped :update do
+          property :name
+          property :displayName
         end
       end
     end
