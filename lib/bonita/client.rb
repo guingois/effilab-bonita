@@ -56,8 +56,6 @@ module Bonita
       @url          = options[:url]
       @username     = options[:username]
       @password     = options[:password]
-      @redirect     = options[:redirect]
-      @redirect_url = options[:redirect_url]
       @tenant       = options[:tenant]
     end
 
@@ -68,8 +66,6 @@ module Bonita
           req.body = {
             username:     @username,
             password:     @password,
-            redirect:     @redirect,
-            redirect_url: @redirect_url,
             tenant:       @tenant,
           }
         end
