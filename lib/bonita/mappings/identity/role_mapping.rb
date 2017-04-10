@@ -8,21 +8,21 @@ module Bonita
         mapping Role
 
         scoped :read do
-          property :id
-          property :name
-          property :displayName
-          property :description
-          property :creation_date
           property :created_by_user_id
-          property :last_update_date
+          property :creation_date
+          property :description
+          property :displayName
           property :icon
+          property :id
+          property :last_update_date
+          property :name
         end
 
         scoped :update, :create do
-          property :name
-          property :displayName
           property :description
+          property :displayName
           property :icon
+          property :name
         end
       end
     end

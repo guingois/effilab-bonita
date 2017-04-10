@@ -8,44 +8,44 @@ module Bonita
         mapping User
 
         scoped :read do
-          property :id
-          property :userName
-          property :lastname
-          property :firstname
-          property :last_connection
           property :created_by_user_id
           property :creation_date
-          property :icon
-          property :title
-          property :manager_id
-          property :job_title
-          property :last_update_date
           property :enabled
+          property :firstname
+          property :icon
+          property :id
+          property :job_title
+          property :last_connection
+          property :last_update_date
+          property :lastname
+          property :manager_id
+          property :title
+          property :userName
         end
 
         scoped :create do
-          property :userName
+          property :firstname
+          property :icon
+          property :job_title
+          property :lastname
+          property :manager_id
           property :password
           property :password_confirm
-          property :icon
-          property :firstname
-          property :lastname
           property :title
-          property :job_title
-          property :manager_id
+          property :userName
         end
 
         scoped :update do
+          property :firstname
+          property :icon
           property :id
-          property :userName
+          property :job_title
+          property :lastname
+          property :manager_id
           property :password
           property :password_confirm
-          property :icon
-          property :firstname
-          property :lastname
           property :title
-          property :job_title
-          property :manager_id
+          property :userName
         end
       end
     end

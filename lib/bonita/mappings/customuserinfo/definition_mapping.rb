@@ -7,15 +7,15 @@ module Bonita
       kartograph do
         mapping Definition
 
-        scoped :create do
-          property :name
-          property :description
-        end
-
         scoped :read do
+          property :description
           property :id
           property :name
+        end
+
+        scoped :create do
           property :description
+          property :name
         end
       end
     end

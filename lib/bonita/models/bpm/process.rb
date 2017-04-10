@@ -2,17 +2,17 @@
 module Bonita
   module Bpm
     class Process < BaseModel
-      attribute :id
-      attribute :displayDescription
+      attribute :activationState
+      attribute :actorinitiatorid
+      attribute :configurationState
+      attribute :deployedBy
       attribute :deploymentDate
       attribute :description
-      attribute :activationState
-      attribute :name
-      attribute :deployedBy
+      attribute :displayDescription
       attribute :displayName
-      attribute :actorinitiatorid
+      attribute :id
       attribute :last_update_date
-      attribute :configurationState
+      attribute :name
       attribute :version
     end
   end

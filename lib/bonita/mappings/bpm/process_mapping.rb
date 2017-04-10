@@ -7,23 +7,23 @@ module Bonita
       kartograph do
         mapping Process
 
-        scoped :instantiated do
-          property :caseId
-        end
-
         scoped :read do
-          property :id
-          property :displayDescription
+          property :activationState
+          property :actorinitiatorid
+          property :configurationState
+          property :deployedBy
           property :deploymentDate
           property :description
-          property :activationState
-          property :name
-          property :deployedBy
+          property :displayDescription
           property :displayName
-          property :actorinitiatorid
+          property :id
           property :last_update_date
-          property :configurationState
+          property :name
           property :version
+        end
+
+        scoped :instantiated do
+          property :caseId
         end
       end
     end

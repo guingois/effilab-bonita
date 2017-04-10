@@ -7,18 +7,18 @@ module Bonita
       kartograph do
         mapping Membership
 
-        scoped :create do
-          property :role_id
+        scoped :read do
+          property :assigned_by_user_id
+          property :assigned_date
           property :group_id
+          property :role_id
           property :user_id
         end
 
-        scoped :read do
-          property :role_id
+        scoped :create do
           property :group_id
+          property :role_id
           property :user_id
-          property :assigned_date
-          property :assigned_by_user_id
         end
       end
     end

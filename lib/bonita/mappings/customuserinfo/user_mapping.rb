@@ -8,9 +8,9 @@ module Bonita
         mapping User
 
         scoped :read do
+          property :definitionId, include: DefinitionMapping
           property :userId
           property :value
-          property :definitionId, include: DefinitionMapping
         end
       end
     end

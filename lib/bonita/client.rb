@@ -8,17 +8,17 @@ module Bonita
         {
           customuserinfo: {
             definitions: Customuserinfo::DefinitionResource,
-            values: Customuserinfo::ValueResource,
             users: Customuserinfo::UserResource,
+            values: Customuserinfo::ValueResource,
           },
           bpm: {
             processes: Bpm::ProcessResource,
           },
           identity: {
-            users: Identity::UserResource,
             groups: Identity::GroupResource,
-            roles: Identity::RoleResource,
             memberships: Identity::MembershipResource,
+            roles: Identity::RoleResource,
+            users: Identity::UserResource,
           },
         }
       end

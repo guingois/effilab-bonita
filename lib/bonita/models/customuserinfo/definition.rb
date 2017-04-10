@@ -2,9 +2,9 @@
 module Bonita
   module Customuserinfo
     class Definition < BaseModel
+      attribute :description
       attribute :id
       attribute :name
-      attribute :description
     end
   end
 end

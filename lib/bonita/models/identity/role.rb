@@ -2,14 +2,14 @@
 module Bonita
   module Identity
     class Role < BaseModel
-      attribute :id
-      attribute :name
-      attribute :displayName
-      attribute :description
-      attribute :creation_date
       attribute :created_by_user_id
-      attribute :last_update_date
+      attribute :creation_date
+      attribute :description
+      attribute :displayName
       attribute :icon
+      attribute :id
+      attribute :last_update_date
+      attribute :name
     end
   end
 end

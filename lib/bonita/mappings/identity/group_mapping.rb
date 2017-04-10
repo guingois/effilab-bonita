@@ -8,30 +8,30 @@ module Bonita
         mapping Group
 
         scoped :read do
-          property :id
-          property :creation_date
           property :created_by_user_id
-          property :icon
+          property :creation_date
           property :description
-          property :name
-          property :path
           property :displayName
-          property :parent_path
-          property :parent_group_id
+          property :icon
+          property :id
           property :last_update_date
+          property :name
+          property :parent_group_id
+          property :parent_path
+          property :path
         end
 
         scoped :create do
+          property :description
+          property :displayName
           property :icon
           property :name
-          property :displayName
           property :parent_group_id
-          property :description
         end
 
         scoped :update do
-          property :name
           property :displayName
+          property :name
         end
       end
     end
