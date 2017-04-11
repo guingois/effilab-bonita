@@ -21,7 +21,7 @@ module Bonita
         end
 
         action :delete do
-          path 'bonita/API/identity/membership/:membershipId'
+          path 'bonita/API/identity/membership/:userId/:groupId/:roleId'
           verb :delete
           handler(200) { true }
         end
