@@ -23,7 +23,7 @@ module Bonita
           query_keys :s, :f, :o, :d, :c
           path 'bonita/API/identity/group'
           verb :get
-          handler(200) { |response|; GroupMapping.extract_collection(response.body, :read) }
+          handler(200) { |response| GroupMapping.extract_collection(response.body, :read) }
         end
 
         action :update do
