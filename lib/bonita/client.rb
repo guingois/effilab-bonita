@@ -20,6 +20,10 @@ module Bonita
             roles: Identity::RoleResource,
             users: Identity::UserResource,
           },
+          portal: {
+            profiles: Portal::ProfileResource,
+            profile_members: Portal::ProfileMemberResource,
+          },
         }
       end
 

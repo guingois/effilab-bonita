@@ -75,6 +75,7 @@ module Bonita
       end
 
       def call
+        return extract unless @payload[:d]
         extract.map do |obj|
           @payload[:d].each do |deploy|
             obj.send("#{deploy}=", child_mapper(deploy).extract_single(obj.send(deploy).to_json, :read))
