@@ -3,13 +3,14 @@ module Bonita
   class Error < StandardError
     attr_reader :java_exception, :error_message, :explanations, :status
 
-    def initialize(status, body)
+    def initialize(status, body, request_url)
       if body['exception']
         mapping = Bonita::ErrorMapping.extract_single(body, :read)
         @java_exception = mapping.exception
         @error_message  = mapping.message
         @explanations   = mapping.explanations
         @status         = status
+        @request_url    = request_url
         values = Hash[instance_variables.map { |name| [name, instance_variable_get(name)] }]
       else
         values = body
