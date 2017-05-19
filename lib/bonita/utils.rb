@@ -38,11 +38,12 @@ module Bonita
           @resource.class.name.gsub(/::\w+Resource/, '')
         end
 
-        # Given the following input strings :
+        # Given the following arguments :
         # foo_id
         # fooId
         # parent_foo_id
         # This method will always return 'foo'
+        # @return [String]
         def strip_prefix_and_suffix(deploy)
           deploy.gsub(/Id|_id/, '').split('_')[-1]
         end
