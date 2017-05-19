@@ -42,6 +42,7 @@ require 'bonita/mappings/portal/profile_mapping'
 require 'bonita/mappings/portal/profile_member_mapping'
 
 # Resources
+require 'bonita/resources/bdm/business_data_resource'
 require 'bonita/resources/bpm/process_resource'
 require 'bonita/resources/bpm/user_task_resource'
 require 'bonita/resources/customuserinfo/definition_resource'
