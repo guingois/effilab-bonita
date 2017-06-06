@@ -12,7 +12,7 @@ module ErrorHandler
             raise Bonita::AuthError
           end
         else
-          raise Bonita::Error.new(response.status, response.body)
+          raise Bonita::Error.new(response.status, response.body, response.env.url)
         end
       end
     end

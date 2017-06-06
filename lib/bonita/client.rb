@@ -13,6 +13,10 @@ module Bonita
           },
           bpm: {
             processes: Bpm::ProcessResource,
+            user_tasks: Bpm::UserTaskResource,
+          },
+          bdm: {
+            business_data: Bdm::BusinessDataResource,
           },
           identity: {
             groups: Identity::GroupResource,
