@@ -15,9 +15,11 @@ module Bonita
       attribute :id
       attribute :last_update_date
       attribute :name
+      attribute :parentCaseId
       attribute :priority
       attribute :processId
       attribute :reached_state_date
+      attribute :rootCaseId
       attribute :rootContainerId
       attribute :state
       attribute :type
