@@ -12,6 +12,7 @@ module Bonita
             values: Customuserinfo::ValueResource,
           },
           bpm: {
+            case_variables: Bpm::CaseVariableResource,
             processes: Bpm::ProcessResource,
             user_tasks: Bpm::UserTaskResource,
           },
