@@ -21,9 +21,11 @@ module Bonita
           property :id
           property :last_update_date
           property :name
+          property :parentCaseId
           property :priority
           property :processId
           property :reached_state_date
+          property :rootCaseId
           property :rootContainerId
           property :state
           property :type
