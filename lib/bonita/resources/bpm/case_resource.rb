@@ -10,6 +10,7 @@ module Bonita
         action :find do
           path 'bonita/API/bpm/case/:caseId'
           verb :get
+          query_keys :d, :n
           handler(200) { |response| CaseMapping.extract_single(response.body, :read) }
         end
 
