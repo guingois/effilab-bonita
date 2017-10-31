@@ -77,9 +77,14 @@ module Bonita
 
       def call
         return extract unless @payload[:d]
+        @payload[:d] = [@payload[:d]] unless @payload[:d].is_a? Array
         extract.map do |obj|
           @payload[:d].each do |deploy|
-            obj.send("#{deploy}=", child_mapper(deploy).extract_single(obj.send(deploy).to_json, :read))
+            begin
+              obj.send("#{deploy}=", child_mapper(deploy).extract_single(obj.send(deploy).to_json, :read))
+            rescue NameError
+              next
+            end
           end
           obj
         end
