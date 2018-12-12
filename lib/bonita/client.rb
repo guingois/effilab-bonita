@@ -73,11 +73,12 @@ module Bonita
       response =
         connection.post '/bonita/loginservice' do |req|
           req.headers['Content-Type'] = 'application/x-www-form-urlencoded'
-          req.body = {
+          body = {
             username:     @username,
             password:     @password,
-            tenant:       @tenant,
           }
+          body[:tenant] = @tenant if @tenant
+          req.body = body
         end
 
       raise Bonita::AuthError, 'Unable to log in' if response.body.include?('Unable to log in')
