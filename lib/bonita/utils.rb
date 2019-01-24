@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Hash
   # Replace nil values with empty strings recursively
   # @return [Hash]
@@ -7,12 +9,11 @@ class Hash
         if Hash === v
           denilize(v)
         else
-          v ? v : ''
+          v || ""
         end
     end
   end
 end
-
 
 module Kartograph::DSL::ClassMethods
   # Implementation of Kartograph::DSL#representation_for but replace nil values in object with empty strings
@@ -26,27 +27,27 @@ module Bonita
     module MappingResolver
       private
 
-        def child_mapper(deploy)
-          Object.const_get "#{namespace}::#{strip_prefix_and_suffix(deploy).capitalize}Mapping"
-        end
+      def child_mapper(deploy)
+        Object.const_get "#{namespace}::#{strip_prefix_and_suffix(deploy).capitalize}Mapping"
+      end
 
-        def mapper
-          Object.const_get @resource.class.name.gsub('Resource', 'Mapping')
-        end
+      def mapper
+        Object.const_get @resource.class.name.gsub("Resource", "Mapping")
+      end
 
-        def namespace
-          @resource.class.name.gsub(/::\w+Resource/, '')
-        end
+      def namespace
+        @resource.class.name.gsub(/::\w+Resource/, "")
+      end
 
-        # Given the following arguments :
-        # foo_id
-        # fooId
-        # parent_foo_id
-        # This method will always return 'foo'
-        # @return [String]
-        def strip_prefix_and_suffix(deploy)
-          deploy.gsub(/Id|_id/, '').split('_')[-1]
-        end
+      # Given the following arguments :
+      # foo_id
+      # fooId
+      # parent_foo_id
+      # This method will always return 'foo'
+      # @return [String]
+      def strip_prefix_and_suffix(deploy)
+        deploy.gsub(/Id|_id/, "").split("_")[-1]
+      end
     end
 
     class UpdateHandler
@@ -77,14 +78,13 @@ module Bonita
 
       def call
         return extract unless @payload[:d]
+
         @payload[:d] = [@payload[:d]] unless @payload[:d].is_a? Array
         extract.map do |obj|
           @payload[:d].each do |deploy|
-            begin
-              obj.send("#{deploy}=", child_mapper(deploy).extract_single(obj.send(deploy).to_json, :read))
-            rescue NameError
-              next
-            end
+            obj.send("#{deploy}=", child_mapper(deploy).extract_single(obj.send(deploy).to_json, :read))
+          rescue NameError
+            next
           end
           obj
         end
@@ -92,9 +92,9 @@ module Bonita
 
       private
 
-        def extract
-          @extract ||= mapper.extract_collection(@response.body, :read)
-        end
+      def extract
+        @extract ||= mapper.extract_collection(@response.body, :read)
+      end
     end
   end
 end

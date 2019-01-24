@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Bonita
   class Client
     attr_reader :username, :password, :url, :redirect_url, :tenant
@@ -9,27 +10,27 @@ module Bonita
           customuserinfo: {
             definitions: Customuserinfo::DefinitionResource,
             users: Customuserinfo::UserResource,
-            values: Customuserinfo::ValueResource,
+            values: Customuserinfo::ValueResource
           },
           bpm: {
             cases: Bpm::CaseResource,
             case_variables: Bpm::CaseVariableResource,
             processes: Bpm::ProcessResource,
-            user_tasks: Bpm::UserTaskResource,
+            user_tasks: Bpm::UserTaskResource
           },
           bdm: {
-            business_data: Bdm::BusinessDataResource,
+            business_data: Bdm::BusinessDataResource
           },
           identity: {
             groups: Identity::GroupResource,
             memberships: Identity::MembershipResource,
             roles: Identity::RoleResource,
-            users: Identity::UserResource,
+            users: Identity::UserResource
           },
           portal: {
             profiles: Portal::ProfileResource,
-            profile_members: Portal::ProfileMemberResource,
-          },
+            profile_members: Portal::ProfileMemberResource
+          }
         }
       end
 
@@ -71,22 +72,23 @@ module Bonita
 
     def login
       response =
-        connection.post '/bonita/loginservice' do |req|
-          req.headers['Content-Type'] = 'application/x-www-form-urlencoded'
+        connection.post "/bonita/loginservice" do |req|
+          req.headers["Content-Type"] = "application/x-www-form-urlencoded"
           body = {
             username:     @username,
-            password:     @password,
+            password:     @password
           }
           body[:tenant] = @tenant if @tenant
           req.body = body
         end
 
-      raise Bonita::AuthError, 'Unable to log in' if response.body.include?('Unable to log in')
+      raise Bonita::AuthError, "Unable to log in" if response.body.include?("Unable to log in")
+
       true
     end
 
     def logout
-      connection.get '/bonita/logoutservice?redirect=false'
+      connection.get "/bonita/logoutservice?redirect=false"
     end
 
     def connection
@@ -101,16 +103,16 @@ module Bonita
 
     private
 
-      def connection_options
-        {
-          url: @url,
-          request: {
-            params_encoder: Faraday::FlatParamsEncoder,
-          },
-          headers: {
-            content_type: 'application/json',
-          },
+    def connection_options
+      {
+        url: @url,
+        request: {
+          params_encoder: Faraday::FlatParamsEncoder
+        },
+        headers: {
+          content_type: "application/json"
         }
-      end
+      }
+    end
   end
 end

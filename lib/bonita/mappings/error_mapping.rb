@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Bonita
   class ErrorMapping
     Error = Struct.new(:exception, :message, :explanations)
