@@ -4,47 +4,35 @@ module Bonita
   class Client
     attr_reader :username, :password, :url, :redirect_url, :tenant
 
-    class << self
-      def resources # rubocop:disable Metrics/MethodLength
-        {
-          customuserinfo: {
-            definitions: Customuserinfo::DefinitionResource,
-            users: Customuserinfo::UserResource,
-            values: Customuserinfo::ValueResource
-          },
-          bpm: {
-            cases: Bpm::CaseResource,
-            case_variables: Bpm::CaseVariableResource,
-            processes: Bpm::ProcessResource,
-            user_tasks: Bpm::UserTaskResource
-          },
-          bdm: {
-            business_data: Bdm::BusinessDataResource
-          },
-          identity: {
-            groups: Identity::GroupResource,
-            memberships: Identity::MembershipResource,
-            roles: Identity::RoleResource,
-            users: Identity::UserResource
-          },
-          portal: {
-            profiles: Portal::ProfileResource,
-            profile_members: Portal::ProfileMemberResource
-          }
+    RESOURCES =
+      {
+        customuserinfo: {
+          definitions: Customuserinfo::DefinitionResource,
+          users: Customuserinfo::UserResource,
+          values: Customuserinfo::ValueResource
+        },
+        bpm: {
+          cases: Bpm::CaseResource,
+          case_variables: Bpm::CaseVariableResource,
+          processes: Bpm::ProcessResource,
+          user_tasks: Bpm::UserTaskResource
+        },
+        bdm: {
+          business_data: Bdm::BusinessDataResource
+        },
+        identity: {
+          groups: Identity::GroupResource,
+          memberships: Identity::MembershipResource,
+          roles: Identity::RoleResource,
+          users: Identity::UserResource
+        },
+        portal: {
+          profiles: Portal::ProfileResource,
+          profile_members: Portal::ProfileMemberResource
         }
-      end
+      }.freeze
 
-      def start(options = {})
-        client = new(options)
-        client.login
-
-        yield(client)
-      ensure
-        client.logout
-      end
-    end
-
-    resources.each do |key, value|
+    RESOURCES.each do |key, value|
       if value.is_a? Hash
         mod = Object.const_get("Bonita::#{key.capitalize}")
         mod.module_eval do
@@ -61,6 +49,14 @@ module Bonita
       else
         define_method(key) { value.new(connection: connection) }
       end
+    end
+    def self.start(options = {})
+      client = new(options)
+      client.login
+
+      yield(client)
+    ensure
+      client.logout
     end
 
     def initialize(options = {})
