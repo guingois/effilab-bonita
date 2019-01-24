@@ -1,4 +1,5 @@
-# frozen_string_literal : true
+# frozen_string_literal: true
+
 module Bonita
   module Bpm
     class Case < BaseModel
