@@ -20,11 +20,13 @@ Or install it yourself as:
 
 ## Usage
 
+### Client instantiation
+
 Bonita API requires you to login to the portal URL, then logout when you're done.
 
 There is two way to handle this authentication logic.
 
-### With a block
+#### With a block
 
 ```ruby
 Bonita::Client.start(username: "YOUR_USERNAME", password: "YOUR_PASSWORD", url: "YOUR_BONITA_SERVER_URL") do |client|
@@ -32,7 +34,7 @@ Bonita::Client.start(username: "YOUR_USERNAME", password: "YOUR_PASSWORD", url: 
 end # Logout seamlessly when closing the block_given
 ```
 
-### With an instance
+#### With an instance
 ```ruby
 client = Bonita::Client.new(username: "YOUR_USERNAME", password: "YOUR_PASSWORD", url: "YOUR_BONITA_SERVER_URL")
 client.login
@@ -40,9 +42,46 @@ client.login
 client.logout
 ```
 
+### Practical usage
+
+Using the `client` object instantiated above, call the method corresponding to the API you want to request, then call the resource, then the action.
+
+```ruby
+# Find a case
+client.bpm.cases.find(caseId: 123)
+# => #<Bonita::Bpm::Case @id=123, ...>
+
+# Create a case
+new_case = Bonita::Bpm::Case.new(processDefinitionId: 123, variables: [{ foo: "bar" }])
+client.bpm.cases.create(new_case)
+# => #<Bonita::Bpm::Case @id=123, ...>
+
+# Search for a case
+client.bpm.cases.search(
+  c: 10, # number of results
+  s: "a name", # search criteria
+  o: "name", # order
+  d: %w(processDefinitionId started_by), # extend resource response
+  f: "activationState=DISABLED" # search filter
+)
+# => [#<Bonita::Bpm::Case @id=123, ...>, #<Bonita::Bpm::Case @id=123, ...>]
+
+# Delete a case
+client.bpm.cases.delete(caseId: 123)
+# => true
+
+# Retrieve a case context
+client.bpm.cases.context(caseId: 123)
+# => #<Hash>
+```
+
+The list of all covered endpoints is available in `lib/mappings` directory
+
+
+
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/Pierre Deville/bonita. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
+Bug reports and pull requests are welcome on GitHub at https://github.com/Effilab/bonita. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
 
 
 ## License
