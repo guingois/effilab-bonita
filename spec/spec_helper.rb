@@ -3,6 +3,7 @@
 require "bundler/setup"
 require "bonita"
 require "support/faraday_helper"
+require "resource_kit/testing"
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
@@ -12,5 +13,5 @@ RSpec.configure do |config|
     c.syntax = :expect
   end
 
-  config.include Bonita::FaradayHelper
+  config.include Bonita::FaradayHelper, type: :integration
 end

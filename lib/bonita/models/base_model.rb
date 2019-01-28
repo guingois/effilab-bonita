@@ -21,6 +21,18 @@ module Bonita
       end
     end
 
+    def ==(other)
+      self.class == other.class &&
+        instance_variables == other.instance_variables &&
+        instance_variables.none? { |ivar| instance_variable_get(ivar) != other.instance_variable_get(ivar) }
+    end
+
+    def to_hash
+      self.class.attributes.each.with_object({}) do |attribute, hash|
+        hash[attribute] = instance_variable_get("@#{attribute}")
+      end
+    end
+
     def inspect
       values = Hash[instance_variables.map { |name| [name, instance_variable_get(name)] }]
       "<#{self.class.name} #{values}>"
