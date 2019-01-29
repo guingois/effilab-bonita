@@ -7,13 +7,7 @@ module Bonita
       include ErrorHandler
 
       resources do
-        action :create do
-          path "/bonita/API/identity/group"
-          verb :post
-          body { |object| GroupMapping.representation_for(:create, object) }
-          handler(200) { |response| GroupMapping.extract_single(response.body, :read) }
-        end
-
+        # @todo Rename to find
         action :read do
           path "bonita/API/identity/group/:groupId"
           verb :get
@@ -21,10 +15,17 @@ module Bonita
         end
 
         action :search do
-          query_keys :s, :f, :o, :d, :c
+          query_keys :c, :d, :f, :o, :p, :s
           path "bonita/API/identity/group"
           verb :get
           handler(200) { |response| GroupMapping.extract_collection(response.body, :read) }
+        end
+
+        action :create do
+          path "bonita/API/identity/group"
+          verb :post
+          body { |object| GroupMapping.representation_for(:create, object) }
+          handler(200) { |response| GroupMapping.extract_single(response.body, :read) }
         end
 
         action :update do
@@ -33,6 +34,7 @@ module Bonita
           body { |object| Bonita::Utils::UpdateHandler.new(object, GroupMapping).call }
           handler(200) { |response| GroupMapping.extract_single(response.body, :read) }
         end
+
         action :delete do
           path "bonita/API/identity/group/:groupId"
           verb :delete
