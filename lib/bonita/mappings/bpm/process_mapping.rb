@@ -26,6 +26,12 @@ module Bonita
         scoped :instantiated do
           property :caseId
         end
+
+        scoped :update do
+          property :activationState
+          property :displayDescription
+          property :displayName
+        end
       end
     end
   end
