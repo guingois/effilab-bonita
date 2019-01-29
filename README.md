@@ -57,8 +57,10 @@ client.bpm.cases.create(new_case)
 # => #<Bonita::Bpm::Case @id=123, ...>
 
 # Search for a case
+# For more details about how search works, check out the corresponding article on the official Bonita API documentation.
 client.bpm.cases.search(
-  c: 10, # number of results
+  c: 10, # number of results,
+  p: 2, # index of the page to display
   s: "a name", # search criteria
   o: "name", # order
   d: %w(processDefinitionId started_by), # extend resource response

@@ -22,7 +22,7 @@ module Bonita
         end
 
         action :search do
-          query_keys :s, :f, :o, :d, :c
+          query_keys :c, :d, :f, :o, :p, :s
           path "bonita/API/bpm/case"
           verb :get
           handler(200) { |response, payload| Bonita::Utils::SearchHandler.new(response, payload, self).call }

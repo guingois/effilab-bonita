@@ -97,7 +97,7 @@ RSpec.describe Bonita::Bpm::CaseResource, type: :integration do
 
   describe "#search" do
     let(:path) do
-      "bonita/API/bpm/case?c=3&o=name&d=processDefinitionId&d=started_by&d=startedBySubstitute&s=foo&f=activationState=DISABLED" # rubocop:disable Metrics/LineLength
+      "bonita/API/bpm/case?c=3&p=2&o=name&d=processDefinitionId&d=started_by&d=startedBySubstitute&s=foo&f=activationState=DISABLED" # rubocop:disable Metrics/LineLength
     end
 
     let(:response_body) do
@@ -116,6 +116,7 @@ RSpec.describe Bonita::Bpm::CaseResource, type: :integration do
     let(:response) do
       subject.search(
         c: 3,
+        p: 2,
         d: %w[processDefinitionId started_by startedBySubstitute],
         o: "name",
         s: "foo",
