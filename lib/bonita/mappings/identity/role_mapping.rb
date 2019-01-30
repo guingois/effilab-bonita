@@ -20,10 +20,13 @@ module Bonita
         end
 
         scoped :update, :create do
-          property :description
           property :displayName
-          property :icon
           property :name
+        end
+
+        scoped :create do
+          property :description
+          property :icon
         end
       end
     end
