@@ -1,16 +1,19 @@
 # frozen_string_literal: true
 
-RSpec.describe Bonita::Client do
+RSpec.describe Bonita::Client, type: :integration do
   let(:url) { "http://bonita_host.com" }
   let(:username) { "username" }
   let(:password) { "password" }
   let(:tenant) { "tenant" }
+  let(:logger) { double("logger", info: nil, debug: nil) }
   let(:options) do
     {
       url: url,
       username: username,
       password: password,
-      tenant: tenant
+      tenant: tenant,
+      logger: logger,
+      log_api_bodies: true
     }
   end
 
@@ -103,7 +106,7 @@ RSpec.describe Bonita::Client do
         }
       }
     end
-    let(:conn) { double("connection", use: nil, adapter: nil) }
+    let(:conn) { double("connection", use: nil, adapter: nil, response: nil) }
 
     it "instantiates a properly configured Farday::Connection object" do
       expect(Faraday).to receive(:new).with(connection_options).and_yield(conn)
@@ -111,6 +114,7 @@ RSpec.describe Bonita::Client do
       expect(conn).to receive(:use).with(Bonita::Middleware::CSRF)
       expect(conn).to receive(:use).with(Faraday::Request::UrlEncoded)
       expect(conn).to receive(:adapter).with(Faraday.default_adapter)
+      expect(conn).to receive(:response).with(:logger, logger, bodies: true)
       subject.connection
     end
   end

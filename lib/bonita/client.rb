@@ -50,6 +50,7 @@ module Bonita
         define_method(key) { value.new(connection: connection) }
       end
     end
+
     def self.start(options = {})
       client = new(options)
       client.login
@@ -60,10 +61,12 @@ module Bonita
     end
 
     def initialize(options = {})
-      @url          = options[:url]
-      @username     = options[:username]
-      @password     = options[:password]
-      @tenant       = options[:tenant]
+      @url = options[:url]
+      @username = options[:username]
+      @password = options[:password]
+      @tenant = options[:tenant]
+      @logger = options[:logger]
+      @log_api_bodies = options[:log_api_bodies]
     end
 
     def login
@@ -93,11 +96,20 @@ module Bonita
           conn.use :cookie_jar
           conn.use Bonita::Middleware::CSRF
           conn.use Faraday::Request::UrlEncoded
+          conn.response :logger, logger, bodies: log_api_bodies?
           conn.adapter Faraday.default_adapter
         end
     end
 
     private
+
+    def logger
+      @logger || ::Logger.new(STDERR)
+    end
+
+    def log_api_bodies?
+      @log_api_bodies || false
+    end
 
     def connection_options
       {

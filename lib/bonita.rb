@@ -5,8 +5,7 @@ require "resource_kit"
 require "kartograph"
 require "faraday"
 require "faraday-cookie_jar"
-require "byebug"
-require "ap"
+require "logger"
 
 # Utils
 require "bonita/utils"
