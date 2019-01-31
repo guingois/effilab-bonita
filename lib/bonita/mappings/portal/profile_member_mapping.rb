@@ -18,8 +18,8 @@ module Bonita
         end
 
         scoped :create do
-          property :profile_id
           property :member_type
+          property :profile_id
           property :user_id
         end
       end
