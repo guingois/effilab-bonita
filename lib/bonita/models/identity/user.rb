@@ -17,6 +17,7 @@ module Bonita
       attribute :manager_id
       attribute :password
       attribute :password_confirm
+      attribute :professional_data
       attribute :title
       attribute :userName
     end

@@ -20,6 +20,7 @@ module Bonita
           property :last_update_date
           property :lastname
           property :manager_id
+          property :professional_data
           property :title
           property :userName
         end
