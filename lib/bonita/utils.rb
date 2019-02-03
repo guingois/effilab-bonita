@@ -3,10 +3,10 @@
 class Hash
   # Replace nil values with empty strings recursively
   # @return [Hash]
-  def denilize(h = self)
-    h.each_with_object({}) do |(k, v), g|
+  def denilize(hash = self)
+    hash.each_with_object({}) do |(k, v), g|
       g[k] =
-        if Hash === v
+        if Hash == v
           denilize(v)
         else
           v || ""
