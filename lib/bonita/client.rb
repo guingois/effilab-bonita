@@ -5,7 +5,7 @@ module Bonita
     attr_reader :username, :password, :url, :redirect_url, :tenant
 
     class << self
-      def resources
+      def resources # rubocop:disable Metrics/MethodLength
         {
           customuserinfo: {
             definitions: Customuserinfo::DefinitionResource,
@@ -75,8 +75,8 @@ module Bonita
         connection.post "/bonita/loginservice" do |req|
           req.headers["Content-Type"] = "application/x-www-form-urlencoded"
           body = {
-            username:     @username,
-            password:     @password
+            username: @username,
+            password: @password
           }
           body[:tenant] = @tenant if @tenant
           req.body = body
@@ -92,7 +92,7 @@ module Bonita
     end
 
     def connection
-      @faraday ||=
+      @connection ||=
         Faraday.new connection_options do |conn|
           conn.use :cookie_jar
           conn.use Bonita::Middleware::CSRF
