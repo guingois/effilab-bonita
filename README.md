@@ -2,6 +2,8 @@
 
 Unofficial API client for [Bonita API](https://effilab.atlassian.net/wiki/display/IT/Product+Launch+-+Overview)
 
+The exhaustive list of all covered endpoints can be found [here](endpoints.md). It is still far from covering all of them but it provides a good structure to build
+
 ## Installation
 
 Add this line to your application's Gemfile:
@@ -77,8 +79,13 @@ client.bpm.cases.context(caseId: 123)
 # => #<Hash>
 ```
 
-The list of all covered endpoints is available in `lib/mappings` directory
+Checkout `lib/mappings` for a list of existing methods
 
+# Todo
+
+- Remove Kartograph dependency and return plain hashes. (to be debated)
+- Real life tests
+- Cover more endpoints
 
 
 ## Contributing
