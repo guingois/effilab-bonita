@@ -4,7 +4,7 @@ module Bonita
   module Bpm
     # API reference : http://documentation.bonitasoft.com/?page=bpm-api#toc27
     class CaseResource < ResourceKit::Resource
-      include ErrorHandler
+      include Bonita::ErrorHandler
 
       resources do
         action :find do

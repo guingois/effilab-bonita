@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module ErrorHandler
+module Bonita::ErrorHandler
   def self.included(base) # rubocop:disable Metrics/AbcSize
     base.send(:resources) do
       default_handler do |response|
