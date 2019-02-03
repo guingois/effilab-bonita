@@ -16,7 +16,6 @@ module Bonita::FaradayHelper
 
     Faraday.new options do |conn|
       conn.use Faraday::Request::UrlEncoded
-      conn.response :logger, ::Logger.new(STDOUT), bodies: true
       conn.adapter Faraday.default_adapter
     end
   end
