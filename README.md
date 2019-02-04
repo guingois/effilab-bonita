@@ -83,6 +83,7 @@ Checkout `lib/mappings` for a list of existing methods
 
 # Todo
 
+- Do not use /bonita as a base URL. 
 - Remove Kartograph dependency and return plain hashes. (to be debated)
 - Real life tests
 - Cover more endpoints
