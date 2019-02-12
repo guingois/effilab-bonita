@@ -7,18 +7,18 @@ module Bonita
       include ErrorHandler
 
       resources do
-        action :create do
-          path "/bonita/API/identity/membership"
-          verb :post
-          body { |object| MembershipMapping.safe_representation_for(:create, object) }
-          handler(200) { |response| MembershipMapping.extract_single(response.body, :read) }
-        end
-
         action :search do
-          query_keys :s, :f, :o, :d, :c
+          query_keys :c, :d, :f, :o, :p, :s
           path "bonita/API/identity/membership"
           verb :get
-          handler(200) { |response, payload| Bonita::Utils::SearchHandler.new(response, payload, self).call }
+          handler(200) { |response| MembershipMapping.extract_collection(response.body, :read) }
+        end
+
+        action :create do
+          path "bonita/API/identity/membership"
+          verb :post
+          body { |object| MembershipMapping.safe_representation_for(:create, object) }
+          handler(200) { |response| MembershipMapping.extract_single(response.body, :create_response) }
         end
 
         action :delete do

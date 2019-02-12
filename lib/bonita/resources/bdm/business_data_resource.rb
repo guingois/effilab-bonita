@@ -10,14 +10,14 @@ module Bonita
         action :find do
           path "bonita/API/bdm/businessData/:businessDataType/:persistenceId"
           verb :get
-          handler(200) { |response| JSON.parse response.body }
+          handler(200) { |response| JSON.parse(response.body, symbolize_names: true) }
         end
 
         action :search do
           path "bonita/API/bdm/businessData/:businessDataType"
           query_keys :c, :f, :q, :p
           verb :get
-          handler(200) { |response| JSON.parse response.body }
+          handler(200) { |response| JSON.parse(response.body, symbolize_names: true) }
         end
       end
     end

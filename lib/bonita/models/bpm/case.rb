@@ -24,6 +24,7 @@ module Bonita
       attribute :started_by
       attribute :startedBySubstitute
       attribute :state
+      attribute :variables
     end
   end
 end

@@ -8,7 +8,7 @@ module Bonita
 
       resources do
         action :search do
-          query_keys :s, :f, :o, :c
+          query_keys :c, :f, :p
           path "bonita/API/customuserinfo/user"
           verb :get
           handler(200) { |response| UserMapping.extract_collection(response.body, :read) }

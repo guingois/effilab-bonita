@@ -7,18 +7,18 @@ module Bonita
       include ErrorHandler
 
       resources do
-        action :create do
-          path "/bonita/API/portal/profileMember"
-          verb :post
-          body { |object| ProfileMemberMapping.representation_for(:create, object) }
-          handler(200) { |response| ProfileMemberMapping.extract_single(response.body, :read) }
-        end
-
         action :search do
-          query_keys :s, :f, :o, :d, :c
+          query_keys :c, :d, :f, :o, :p, :s
           path "bonita/API/portal/profileMember"
           verb :get
           handler(200) { |response, payload| Bonita::Utils::SearchHandler.new(response, payload, self).call }
+        end
+
+        action :create do
+          path "bonita/API/portal/profileMember"
+          verb :post
+          body { |object| ProfileMemberMapping.representation_for(:create, object) }
+          handler(200) { |response| ProfileMemberMapping.extract_single(response.body, :read) }
         end
 
         action :delete do

@@ -20,6 +20,7 @@ module Bonita
           handler(200) { true }
         end
 
+        # s and o parameter do not work for this route.
         action :search do
           path "bonita/API/bpm/caseVariable"
           query_keys :c, :p, :f
