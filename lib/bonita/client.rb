@@ -67,9 +67,12 @@ module Bonita
       @tenant = options[:tenant]
       @logger = options[:logger]
       @log_api_bodies = options[:log_api_bodies]
+      @logged_in = false
     end
 
     def login
+      return if logged_in?
+
       response =
         connection.post "/bonita/loginservice" do |req|
           req.headers["Content-Type"] = "application/x-www-form-urlencoded"
@@ -83,11 +86,15 @@ module Bonita
 
       raise Bonita::AuthError, "Unable to log in" if response.body.include?("Unable to log in")
 
-      true
+      @logged_in = true
     end
 
     def logout
+      return unless logged_in?
+
       connection.get "/bonita/logoutservice?redirect=false"
+      @logged_in = false
+      true
     end
 
     def connection
@@ -99,6 +106,10 @@ module Bonita
           conn.response :logger, logger, bodies: log_api_bodies?
           conn.adapter Faraday.default_adapter
         end
+    end
+
+    def logged_in?
+      @logged_in
     end
 
     private
