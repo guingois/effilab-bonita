@@ -18,7 +18,7 @@ module Bonita
           path "bonita/API/identity/membership"
           verb :post
           body { |object| MembershipMapping.safe_representation_for(:create, object) }
-          handler(200) { |response| MembershipMapping.extract_single(response.body, :create_response) }
+          handler(200) { |response| MembershipMapping.extract_single(response.body, :read) }
         end
 
         action :delete do
