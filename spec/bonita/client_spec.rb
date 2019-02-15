@@ -21,6 +21,14 @@ RSpec.describe Bonita::Client, type: :integration do
     described_class.new(options)
   end
 
+  shared_context "logged in" do
+    before { allow(subject).to receive(:logged_in?).and_return true }
+  end
+
+  shared_context "logged out" do
+    before { allow(subject).to receive(:logged_in?).and_return false }
+  end
+
   describe ".start" do
     let(:client) { double("client", login: nil, logout: nil) }
 
@@ -57,40 +65,68 @@ RSpec.describe Bonita::Client, type: :integration do
     end
 
     context "when able to log in" do
-      let(:req) { double("request", headers: headers, body: nil, "body=": nil) }
-      let(:headers) { {} }
-      let(:response) { double("response", body: "ok") }
+      context "when logged in" do
+        include_context "logged in"
 
-      shared_examples "a login request" do
-        it "calls the endpoint with the proper params" do
-          expect(subject.connection).to receive(:post).with("/bonita/loginservice").and_yield(req).and_return(response)
-          expect(headers).to receive("[]=").with("Content-Type", "application/x-www-form-urlencoded")
-          expect(req).to receive(:body=).with(expected_body)
-          result = subject.login
-          expect(result).to be true
+        it "does not perform additional request" do
+          expect(connection).not_to receive(:post)
+          subject.login
         end
       end
 
-      context "with a tenant" do
-        let(:tenant) { "tenant" }
-        let(:expected_body) { { username: "username", password: "password", tenant: "tenant" } }
+      context "when logged out" do
+        include_context "logged out"
 
-        it_behaves_like "a login request"
-      end
+        let(:req) { double("request", headers: headers, body: nil, "body=": nil) }
+        let(:headers) { {} }
+        let(:response) { double("response", body: "ok") }
 
-      context "without a tenant" do
-        let(:tenant) { nil }
-        let(:expected_body) { { username: "username", password: "password" } }
+        shared_examples "a login request" do
+          it "calls the endpoint with the proper params" do
+            expect(subject.connection).to(
+              receive(:post).with("/bonita/loginservice").and_yield(req).and_return(response)
+            )
+            expect(headers).to receive("[]=").with("Content-Type", "application/x-www-form-urlencoded")
+            expect(req).to receive(:body=).with(expected_body)
+            result = subject.login
+            expect(result).to be true
+          end
+        end
 
-        it_behaves_like "a login request"
+        context "with a tenant" do
+          let(:tenant) { "tenant" }
+          let(:expected_body) { { username: "username", password: "password", tenant: "tenant" } }
+
+          it_behaves_like "a login request"
+        end
+
+        context "without a tenant" do
+          let(:tenant) { nil }
+          let(:expected_body) { { username: "username", password: "password" } }
+
+          it_behaves_like "a login request"
+        end
       end
     end
   end
 
   describe "#logout" do
-    it "requests the logout url" do
-      expect(subject.connection).to receive(:get).with("/bonita/logoutservice?redirect=false")
-      subject.logout
+    context "when logged in" do
+      include_context "logged in"
+
+      it "requests the logout url" do
+        expect(subject.connection).to receive(:get).with("/bonita/logoutservice?redirect=false")
+        subject.logout
+      end
+    end
+
+    context "when logged out" do
+      include_context "logged out"
+
+      it "does not request the logout url" do
+        expect(subject.connection).not_to receive(:get)
+        subject.logout
+      end
     end
   end
 
