@@ -8,15 +8,13 @@ module Bonita
       kartograph do
         mapping Membership
 
-        scoped :read, :create_response do
+        scoped :read do
           property :assigned_by_user_id
           property :assigned_date
           property :group_id
           property :user_id
+          property :role_id
         end
-
-        property :role_id, scopes: [:create_response]
-        property :role_id, include: RoleMapping, scopes: [:read]
 
         scoped :create do
           property :group_id

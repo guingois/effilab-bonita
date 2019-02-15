@@ -47,12 +47,6 @@ RSpec.describe Bonita::Identity::MembershipResource, type: :integration do
         Bonita::Identity::MembershipMapping.extract_single(response_body.first.to_json, :read)
       )
     end
-
-    it "maps nested keys to existing model objects" do
-      expect(response.first.role_id).to eq(
-        Bonita::Identity::Role.new(response_body.first[:role_id])
-      )
-    end
   end
 
   describe "#create" do
