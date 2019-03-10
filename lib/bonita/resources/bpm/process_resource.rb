@@ -23,7 +23,8 @@ module Bonita
         action :instantiate do
           path "bonita/API/bpm/process/:processId/instantiation"
           verb :post
-          body(&:to_json)
+          # Raises ArgumentError "no receiver given" error if the rule is applied
+          body { |object| object.to_json } # rubocop:disable Style/SymbolProc
           handler(200) { |response| JSON.parse(response.body, symbolize_names: true) }
         end
 

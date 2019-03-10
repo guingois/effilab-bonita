@@ -37,7 +37,8 @@ module Bonita
         action :delete_bulk do
           path "bonita/API/bpm/case"
           verb :delete
-          body(&:to_json)
+          # Raises ArgumentError "no receiver given" error if the rule is applied
+          body { |object| object.to_json } # rubocop:disable Style/SymbolProc
           handler(200) { true }
         end
 
