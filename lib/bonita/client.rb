@@ -15,7 +15,8 @@ module Bonita
           cases: Bpm::CaseResource,
           case_variables: Bpm::CaseVariableResource,
           processes: Bpm::ProcessResource,
-          user_tasks: Bpm::UserTaskResource
+          user_tasks: Bpm::UserTaskResource,
+          messages: Bpm::MessageResource
         },
         bdm: {
           business_data: Bdm::BusinessDataResource
