@@ -20,7 +20,7 @@ RSpec.describe Fea::Authentication do
     io = StringIO.new(head)
     socket = Net::BufferedIO.new(io)
     response = Net::HTTPResponse.read_new(socket)
-    response.reading_body(socket, allow_body) {}
+    response.reading_body(socket, allow_body) {} # rubocop:disable Lint/EmptyBlock
     response
   end
 
