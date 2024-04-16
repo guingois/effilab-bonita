@@ -5,5 +5,6 @@ module Fea
     File.expand_path("../../VERSION", __dir__)
   ).strip
 
+  # The gem version.
   VERSION = Gem::Version.new(version_str)
 end

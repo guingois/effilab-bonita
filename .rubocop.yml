@@ -1,64 +1,13 @@
-inherit_from: .rubocop_todo.yml
-
 require:
+  - rubocop-performance
   - rubocop-rspec
 
-# Metrics
-
-Metrics/BlockLength:
-  Exclude:
-    - 'spec/**/*_spec.rb'
-
-Metrics/ClassLength:
-  Max: 120
-
-Metrics/LineLength:
-  Max: 100
-
-Metrics/MethodLength:
-  Max: 20
-
-# Naming
-
-Naming/AccessorMethodName:
-  Enabled: false
-
-# Style
-
-Style/Documentation:
-  Enabled: false
+AllCops:
+  NewCops: enable
+  TargetRubyVersion: 3.0
 
 Style/StringLiterals:
   EnforcedStyle: double_quotes
 
 Style/StringLiteralsInInterpolation:
   EnforcedStyle: double_quotes
-
-Style/TrailingCommaInArrayLiteral:
-  EnforcedStyleForMultiline: comma
-
-Style/TrailingCommaInHashLiteral:
-  EnforcedStyleForMultiline: comma
-
-Style/TrailingCommaInArguments:
-  Enabled: false
-
-# RSpec
-
-RSpec/ExampleLength:
-  Max: 10
-
-RSpec/LeadingSubject:
-  Enabled: false
-
-RSpec/MessageSpies:
-  Enabled: false
-
-RSpec/MultipleDescribes:
-  Enabled: false
-
-RSpec/MultipleExpectations:
-  Max: 3
-
-RSpec/NamedSubject:
-  Enabled: false

@@ -8,6 +8,7 @@ require_relative "errors"
 module Fea
   # Wrap a pair of request/response sent over the network in a single entity.
   class Exchange
+    # Represent a Content-Range header.
     PageInfo = Struct.new(:unit, :range, :size)
 
     attr_reader :host, :port, :request, :response
