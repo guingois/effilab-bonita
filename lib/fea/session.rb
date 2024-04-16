@@ -56,7 +56,7 @@ module Fea
           username: config.username,
           password: config.password,
           portal_path: config.path,
-          logger: config.logger,
+          logger: config.logger
         }
 
         SafeHttp.start(host, port, use_ssl: use_ssl) do |http|

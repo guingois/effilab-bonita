@@ -122,7 +122,7 @@ module Fea
         path: path,
         username: username,
         password: password,
-        logger: logger,
+        logger: logger
       }
     end
 

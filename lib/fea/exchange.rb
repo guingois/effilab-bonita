@@ -90,14 +90,14 @@ module Fea
           method: request.method,
           request_target: request.path,
           headers: request.to_hash,
-          body: request_body,
+          body: request_body
         },
         response: {
           status_code: Integer(response.code),
           reason_phrase: presence(response.message),
           headers: response.to_hash,
-          body: response_body,
-        },
+          body: response_body
+        }
       }
     end
 
