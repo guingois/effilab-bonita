@@ -46,7 +46,7 @@ module Fea
       #   key will be ignored.
       # @yieldparam session [Session] A connected and authenticated session
       # @return [*] Whatever value the given block returns
-      def start(options = nil)
+      def start(options = nil, &block)
         config = options ? Fea.config.merge(options) : Fea.config
 
         host = config.host
@@ -60,7 +60,7 @@ module Fea
         }
 
         SafeHttp.start(host, port, use_ssl: use_ssl) do |http|
-          new(http, session_opts).login { |session| yield(session) }
+          new(http, session_opts).login(&block)
         end
       end
     end
