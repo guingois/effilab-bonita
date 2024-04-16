@@ -4,16 +4,16 @@ require "net/http"
 require "fea/authentication"
 
 RSpec.describe Fea::Authentication do
+  subject do
+    described_class.new(username, password, portal_path: portal_path)
+  end
+
   let(:username) { "foo" }
   let(:password) { "bar" }
   let(:portal_path) { "/bonita" }
 
   let(:http) do
     instance_double(Net::HTTP, address: "bonita", port: "80")
-  end
-
-  subject do
-    described_class.new(username, password, portal_path: portal_path)
   end
 
   def stub_response(head, allow_body: true)
