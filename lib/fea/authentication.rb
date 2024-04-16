@@ -65,8 +65,7 @@ module Fea
     # @return [Net::HTTPRequest] The given request
     # raise [NotAuthenticatedError] If the authentication isn't valid
     def apply(request)
-      headers = get_headers!
-      headers.each { |k, v| request[k] = v }
+      headers!.each { |k, v| request[k] = v }
       request
     end
 
@@ -75,8 +74,7 @@ module Fea
     # @return [Net::HTTPRequest] The given request
     # raise [NotAuthenticatedError] If the authentication isn't valid
     def purge(request)
-      headers = get_headers!
-      headers.each_key { |k| request[k] = "HIDDEN" }
+      headers!.each_key { |k| request[k] = "HIDDEN" }
       request
     end
 
@@ -87,7 +85,7 @@ module Fea
     # @raise [ResponseError] If the request is not a success
     def logout(http)
       request = Net::HTTP::Get.new(File.join(@portal_path, "logoutservice?redirect=false"))
-      request["Cookie"] = get_headers!["Cookie"]
+      request["Cookie"] = headers!["Cookie"]
       # request doesn't have a body, but Net::HTTP will emit a warning
       # without a Content-Type, so here's a dummy one.
       request["Content-Type"] = "text/plain"
@@ -99,7 +97,7 @@ module Fea
 
     private
 
-    def get_headers!
+    def headers!
       @headers || raise(NotAuthenticatedError)
     end
 
