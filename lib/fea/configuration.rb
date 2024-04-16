@@ -137,23 +137,23 @@ module Fea
     end
 
     def default_host
-      ENV.fetch("FEA_HOST") { nil }
+      ENV.fetch("FEA_HOST", nil)
     end
 
     def default_port
-      ENV.fetch("FEA_PORT") { nil }
+      ENV.fetch("FEA_PORT", nil)
     end
 
     def default_path
-      ENV.fetch("FEA_PATH") { "/bonita" }
+      ENV.fetch("FEA_PATH", "/bonita")
     end
 
     def default_username
-      ENV.fetch("FEA_USERNAME") { nil }
+      ENV.fetch("FEA_USERNAME", nil)
     end
 
     def default_password
-      ENV.fetch("FEA_PASSWORD") { nil }
+      ENV.fetch("FEA_PASSWORD", nil)
     end
 
     def default_logger
