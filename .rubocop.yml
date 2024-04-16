@@ -6,6 +6,9 @@ AllCops:
   NewCops: enable
   TargetRubyVersion: 3.0
 
+Style/Documentation:
+  AllowedConstants: [Fea]
+
 Style/StringLiterals:
   EnforcedStyle: double_quotes
 
