@@ -164,7 +164,7 @@ module Fea
     end
 
     def assign_if_key(key, value)
-      public_send("#{key}=", value[key]) if value.key?(key)
+      public_send(:"#{key}=", value[key]) if value.key?(key)
     end
   end
 end
