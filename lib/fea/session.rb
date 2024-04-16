@@ -214,7 +214,7 @@ module Fea
       query[:o] = order if order
       query[:s] = search if search
 
-      if filter&.is_a?(Hash)
+      if filter.is_a?(Hash)
         query[:f] = filter.each_with_object([]) { |(k, v), acc| acc << "#{k}=#{v}" }
       elsif filter
         query[:f] = filter
