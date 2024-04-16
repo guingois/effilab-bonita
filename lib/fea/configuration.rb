@@ -157,7 +157,7 @@ module Fea
     end
 
     def default_logger
-      logdev = ENV.fetch("FEA_LOGGER_DEVICE") { STDOUT }
+      logdev = ENV.fetch("FEA_LOGGER_DEVICE") { $stdout }
       return if logdev == ""
 
       Logger.new(logdev, level: Logger::DEBUG, formatter: LogFormatter.new)
