@@ -73,7 +73,7 @@ module Fea
         scheme: @use_ssl ? "https" : "http",
         host: @host,
         port: @port,
-        path: @path,
+        path: @path
       )
     end
 

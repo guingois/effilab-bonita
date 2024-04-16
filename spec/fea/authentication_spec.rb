@@ -53,8 +53,8 @@ RSpec.describe Fea::Authentication do
       path: "/bonita/logoutservice?redirect=false",
       content_type: "text/plain",
       to_hash: a_hash_including(
-        "cookie" => ["bonita.tenant=1; JSESSIONID=ABA966CB51E50E45CE0CC84560FF3428"],
-      ),
+        "cookie" => ["bonita.tenant=1; JSESSIONID=ABA966CB51E50E45CE0CC84560FF3428"]
+      )
     )
   end
 
