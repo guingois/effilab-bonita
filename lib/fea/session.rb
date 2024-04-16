@@ -10,8 +10,8 @@ require_relative "exchange"
 
 module Fea
   # Alias for {Session.start}. See there fore details.
-  def self.session(*args, &block)
-    Session.start(*args, &block)
+  def self.session(...)
+    Session.start(...)
   end
 
   # Wrap a HTTP connection in a client (called a `session`) that can
