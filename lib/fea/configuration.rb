@@ -8,6 +8,7 @@ require_relative "log_formatter"
 module Fea
   # Configuration class for a {Session}
   class Configuration
+    # The configuration keys. Any other key will be rejected.
     KEYS = %i[
       url
       use_ssl

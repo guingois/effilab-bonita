@@ -41,7 +41,7 @@ module Fea
       #
       # This is the primary way to initialize safely a {Session}.
       #
-      # @param options [nil, Hash] Any missing option will be read from {Fea.config}
+      # @param options [nil, Hash] Any missing option will be read from {Fea::config}
       #   See {Configuration} about the valid keys for `options`. Any invalid
       #   key will be ignored.
       # @yieldparam session [Session] A connected and authenticated session

@@ -5,6 +5,7 @@ require_relative "configuration"
 module Fea
   # This mixin implements a thread-safe read/write `config` attribute to any object it extends.
   module Configurable
+    # Initialize the required instance variables on the extended object.
     # @api private
     def self.extended(object)
       object.instance_variable_set(:@config_mutex, Mutex.new)
