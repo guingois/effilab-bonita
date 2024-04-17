@@ -71,18 +71,13 @@ module Fea
 
       yield(self) if block_given?
 
-      error_msg = +"#{response.code} #{response.class.name.sub("Net::HTTP", "")}"
-      if response_body.is_a?(Hash) && (api_msg = response_body[:message])
-        error_msg << " [msg: #{api_msg}]"
-      end
-
-      raise ResponseError, error_msg
+      raise ResponseError, format_response_error(response, response_body)
     end
 
     # Represent the exchange as a plain Hash made strictly from standard Ruby
     # objects.
     # @return [Hash]
-    def to_h
+    def to_h # rubocop:disable Metrics/AbcSize
       {
         host: host,
         port: port,
@@ -124,6 +119,16 @@ module Fea
       else
         body
       end
+    end
+
+    def format_response_error(response, response_body)
+      msg = +"#{response.code} #{response.class.name.sub("Net::HTTP", "")}"
+
+      if response_body.is_a?(Hash) && (api_msg = response_body[:message])
+        msg << " [msg: #{api_msg}]"
+      end
+
+      msg.freeze
     end
   end
 end

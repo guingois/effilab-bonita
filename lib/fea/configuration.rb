@@ -8,6 +8,76 @@ require_relative "log_formatter"
 module Fea
   # Configuration class for a {Session}
   class Configuration
+    KEYS = %i[
+      url
+      use_ssl
+      host
+      port
+      path
+      username
+      password
+      logger
+    ].freeze
+
+    # The set of input values.
+    #
+    # Those values are read by order of priority from the following sources:
+    #
+    # - the given `opts` Hash
+    # - the ENV variables
+    # - static defaults
+    class Input
+      # @param opts [Hash]
+      def initialize(opts)
+        @opts = opts
+      end
+
+      # @param key [Symbol] Any item in {KEYS}
+      # @return [Object] The input value corresponding to the `key`
+      def [](key)
+        raise KeyError, key.inspect unless KEYS.include?(key)
+
+        @opts.fetch(key) { send(key) }
+      end
+
+      private
+
+      def url
+        ENV.fetch("FEA_URL", nil)
+      end
+
+      def use_ssl
+        ENV.fetch("FEA_USE_SSL", nil) == "true"
+      end
+
+      def host
+        ENV.fetch("FEA_HOST", nil)
+      end
+
+      def port
+        ENV.fetch("FEA_PORT", nil)
+      end
+
+      def path
+        ENV.fetch("FEA_PATH", "/bonita")
+      end
+
+      def username
+        ENV.fetch("FEA_USERNAME", nil)
+      end
+
+      def password
+        ENV.fetch("FEA_PASSWORD", nil)
+      end
+
+      def logger
+        logdev = ENV.fetch("FEA_LOGGER_DEVICE") { $stdout }
+        return if logdev == ""
+
+        Logger.new(logdev, level: Logger::DEBUG, formatter: Fea::LogFormatter.new)
+      end
+    end
+
     # True if the connection should be secure
     # @return [Boolean]
     attr_accessor :use_ssl
@@ -53,18 +123,20 @@ module Fea
     #   @option opts [String] :password
     #   @option opts [nil, Logger] :logger
     def initialize(opts = {})
-      if (url = opts.fetch(:url) { default_url })
-        self.url = URI(url)
+      input = Input.new(opts)
+
+      if (url = input[:url])
+        self.url = url
       else
-        @use_ssl  = opts.fetch(:use_ssl) { default_use_ssl }
-        @host     = opts.fetch(:host)    { default_host }
-        @port     = opts.fetch(:port)    { default_port }
-        @path     = opts.fetch(:path)    { default_path }
+        @use_ssl = input[:use_ssl]
+        @host    = input[:host]
+        @port    = input[:port]
+        @path    = input[:path]
       end
 
-      @username = opts.fetch(:username) { default_username }
-      @password = opts.fetch(:password) { default_password }
-      @logger   = opts.fetch(:logger)   { default_logger }
+      @username = input[:username]
+      @password = input[:password]
+      @logger   = input[:logger]
     end
 
     # @return [URI::HTTP]
@@ -127,41 +199,6 @@ module Fea
     end
 
     private
-
-    def default_url
-      ENV.key?("FEA_URL") ? URI(ENV["FEA_URL"]) : nil
-    end
-
-    def default_use_ssl
-      ENV["FEA_USE_SSL"] == "true"
-    end
-
-    def default_host
-      ENV.fetch("FEA_HOST", nil)
-    end
-
-    def default_port
-      ENV.fetch("FEA_PORT", nil)
-    end
-
-    def default_path
-      ENV.fetch("FEA_PATH", "/bonita")
-    end
-
-    def default_username
-      ENV.fetch("FEA_USERNAME", nil)
-    end
-
-    def default_password
-      ENV.fetch("FEA_PASSWORD", nil)
-    end
-
-    def default_logger
-      logdev = ENV.fetch("FEA_LOGGER_DEVICE") { $stdout }
-      return if logdev == ""
-
-      Logger.new(logdev, level: Logger::DEBUG, formatter: LogFormatter.new)
-    end
 
     def assign_if_key(key, value)
       public_send(:"#{key}=", value[key]) if value.key?(key)
