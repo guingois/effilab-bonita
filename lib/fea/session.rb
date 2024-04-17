@@ -2,7 +2,7 @@
 
 require "net/http"
 
-require_relative "config"
+require_relative "configurable"
 require_relative "errors"
 require_relative "safe_http"
 require_relative "authentication"

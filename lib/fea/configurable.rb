@@ -3,9 +3,13 @@
 require_relative "configuration"
 
 module Fea
-  @confix_mutex = Mutex.new
+  # This mixin implements a thread-safe read/write `config` attribute to any object it extends.
+  module Configurable
+    # @api private
+    def self.extended(object)
+      object.instance_variable_set(:@confix_mutex, Mutex.new)
+    end
 
-  class << self
     # @return [Configuration] The global configuration
     def config
       @confix_mutex.synchronize do
@@ -48,4 +52,6 @@ module Fea
       private :without_config
     end
   end
+
+  extend Configurable
 end
