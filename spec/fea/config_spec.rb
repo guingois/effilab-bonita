@@ -15,7 +15,8 @@ RSpec.describe Fea do
     end
 
     it "is readable more than once" do
-      expect(subject.config).to be(subject.config)
+      config = subject.config
+      expect(subject.config).to be(config)
     end
 
     it "is writable with another configuration" do
