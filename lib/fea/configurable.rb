@@ -7,13 +7,14 @@ module Fea
   module Configurable
     # @api private
     def self.extended(object)
-      object.instance_variable_set(:@confix_mutex, Mutex.new)
+      object.instance_variable_set(:@config_mutex, Mutex.new)
+      object.instance_variable_set(:@config, nil)
     end
 
     # @return [Configuration] The global configuration
     def config
-      @confix_mutex.synchronize do
-        defined?(@config) ? @config : (@config = Configuration.new)
+      @config_mutex.synchronize do
+        @config ||= Configuration.new
       end
     end
 
@@ -30,26 +31,9 @@ module Fea
     def config=(value)
       config = value.is_a?(Configuration) ? value : Configuration.new(value)
 
-      @confix_mutex.synchronize do
+      @config_mutex.synchronize do
         @config = config
       end
-    end
-
-    if ENV["FEA_TESTING"]
-      def without_config
-        if defined?(@config)
-          memo = @config
-          remove_instance_variable(:@config)
-        end
-
-        begin
-          yield
-        ensure
-          @config = memo unless memo.nil?
-        end
-      end
-
-      private :without_config
     end
   end
 

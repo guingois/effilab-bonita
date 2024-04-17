@@ -6,8 +6,15 @@ RSpec.describe Fea::Configurable do
   subject(:object) { Fea }
 
   describe "config" do
+    def without_config
+      previous_config = object.remove_instance_variable(:@config)
+      object.instance_variable_set(:@config, nil)
+      yield
+      object.instance_variable_set(:@config, previous_config)
+    end
+
     around do |example|
-      object.send(:without_config) { example.run }
+      without_config { example.run }
     end
 
     it "is a Configurable" do
