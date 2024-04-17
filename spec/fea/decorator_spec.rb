@@ -3,7 +3,7 @@
 require "fea/decorator"
 
 RSpec.describe Fea::Decorator do
-  subject do
+  subject(:decorated) do
     klass = Struct.new(:session)
     klass.extend(described_class)
     klass
@@ -16,7 +16,7 @@ RSpec.describe Fea::Decorator do
 
     allow(Fea::Session).to receive(:start).with(options).and_yield(session)
 
-    result = subject.session(options) do |instance|
+    result = decorated.session(options) do |instance|
       expect(instance.session).to be(session)
       return_value
     end

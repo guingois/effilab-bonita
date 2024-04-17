@@ -4,7 +4,7 @@ require "net/http"
 require "fea/authentication"
 
 RSpec.describe Fea::Authentication do
-  subject do
+  subject(:authn) do
     described_class.new(username, password, portal_path: portal_path)
   end
 
@@ -91,7 +91,7 @@ RSpec.describe Fea::Authentication do
       .with(a_login_request)
       .and_return(a_successful_login_response)
 
-    subject.login(http)
+    authn.login(http)
   end
 
   describe "#login" do
@@ -100,9 +100,9 @@ RSpec.describe Fea::Authentication do
         .with(a_login_request)
         .and_return(a_successful_login_response)
 
-      subject.login(http)
+      authn.login(http)
 
-      expect(subject).to be_logged_in
+      expect(authn).to be_logged_in
     end
 
     it "handles login failures" do
@@ -110,11 +110,11 @@ RSpec.describe Fea::Authentication do
         .with(a_login_request)
         .and_return(an_unauthorized_response)
 
-      expect { subject.login(http) }.to raise_error(
+      expect { authn.login(http) }.to raise_error(
         Fea::AuthenticationError, "Invalid username/password ?"
       )
 
-      expect(subject).not_to be_logged_in
+      expect(authn).not_to be_logged_in
     end
 
     it "handles random failures" do
@@ -122,27 +122,27 @@ RSpec.describe Fea::Authentication do
         .with(a_login_request)
         .and_return(a_server_error_response)
 
-      expect { subject.login(http) }.to raise_error(Fea::ResponseError, /InternalServerError/)
+      expect { authn.login(http) }.to raise_error(Fea::ResponseError, /InternalServerError/)
 
-      expect(subject).not_to be_logged_in
+      expect(authn).not_to be_logged_in
     end
   end
 
   describe "#logged_in?" do
     it "is false by default" do
-      expect(subject).not_to be_logged_in
+      expect(authn).not_to be_logged_in
     end
 
     it "is true when logged in" do
       do_login
 
-      expect(subject).to be_logged_in
+      expect(authn).to be_logged_in
     end
   end
 
   describe "#logout" do
     it "cannot logout unless logged in" do
-      expect { subject.logout(http) }.to raise_error(Fea::NotAuthenticatedError)
+      expect { authn.logout(http) }.to raise_error(Fea::NotAuthenticatedError)
     end
 
     it "can logout if logged in" do
@@ -152,9 +152,9 @@ RSpec.describe Fea::Authentication do
         .with(a_logout_request)
         .and_return(a_succesful_logout_response)
 
-      subject.logout(http)
+      authn.logout(http)
 
-      expect(subject).not_to be_logged_in
+      expect(authn).not_to be_logged_in
     end
 
     it "handles random failures" do
@@ -164,9 +164,9 @@ RSpec.describe Fea::Authentication do
         .with(a_logout_request)
         .and_return(a_server_error_response)
 
-      expect { subject.logout(http) }.to raise_error(Fea::ResponseError, /InternalServerError/)
+      expect { authn.logout(http) }.to raise_error(Fea::ResponseError, /InternalServerError/)
 
-      expect(subject).to be_logged_in
+      expect(authn).to be_logged_in
     end
   end
 
@@ -174,13 +174,13 @@ RSpec.describe Fea::Authentication do
     let(:req) { Net::HTTP::Get.new("foo") }
 
     it "cannot apply authentication unless logged in" do
-      expect { subject.apply(req) }.to raise_error(Fea::NotAuthenticatedError)
+      expect { authn.apply(req) }.to raise_error(Fea::NotAuthenticatedError)
     end
 
     it "can apply authentication if logged in" do
       do_login
 
-      subject.apply(req)
+      authn.apply(req)
 
       expect(req["x-bonita-api-token"]).to eq("24d2b188-5948-4b43-bd88-7c4930666de0")
       expect(req["cookie"]).to eq("bonita.tenant=1; JSESSIONID=ABA966CB51E50E45CE0CC84560FF3428")
@@ -191,13 +191,13 @@ RSpec.describe Fea::Authentication do
     let(:req) { Net::HTTP::Get.new("foo") }
 
     it "cannot purge authentication unless logged in" do
-      expect { subject.purge(req) }.to raise_error(Fea::NotAuthenticatedError)
+      expect { authn.purge(req) }.to raise_error(Fea::NotAuthenticatedError)
     end
 
     it "can apply authentication if logged in" do
       do_login
 
-      subject.purge(req)
+      authn.purge(req)
 
       expect(req["x-bonita-api-token"]).to eq("HIDDEN")
       expect(req["cookie"]).to eq("HIDDEN")

@@ -3,36 +3,36 @@
 require "fea/configurable"
 
 RSpec.describe Fea::Configurable do
-  subject { Fea }
+  subject(:object) { Fea }
 
   describe "config" do
     around do |example|
-      subject.send(:without_config) { example.run }
+      object.send(:without_config) { example.run }
     end
 
     it "is a Configurable" do
-      expect(subject).to be_a(described_class)
+      expect(object).to be_a(described_class)
     end
 
     it "is readable the first time" do
-      expect(subject.config).to be_a(Fea::Configuration)
+      expect(object.config).to be_a(Fea::Configuration)
     end
 
     it "is readable more than once" do
-      config = subject.config
-      expect(subject.config).to be(config)
+      config = object.config
+      expect(object.config).to be(config)
     end
 
     it "is writable with another configuration" do
       config = Fea::Configuration.new
-      subject.config = config
-      expect(subject.config).to be(config)
+      object.config = config
+      expect(object.config).to be(config)
     end
 
     it "is writable with options" do
       options = { username: double }
-      subject.config = options
-      expect(subject.config.username).to eq(options[:username])
+      object.config = options
+      expect(object.config.username).to eq(options[:username])
     end
   end
 end
