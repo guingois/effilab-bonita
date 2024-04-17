@@ -86,29 +86,31 @@ RSpec.describe Fea::Authentication do
     HTTP
   end
 
-  def do_login
+  def stub_login_request(response)
     allow(http).to receive(:request)
       .with(a_login_request)
-      .and_return(a_successful_login_response)
+      .and_return(response)
+  end
 
+  def stub_logout_request(response)
+    allow(http).to receive(:request)
+      .with(a_logout_request)
+      .and_return(response)
+  end
+
+  def successfully_login
+    stub_login_request(a_successful_login_response)
     authn.login(http)
   end
 
   describe "#login" do
     it "can login successfully" do
-      expect(http).to receive(:request)
-        .with(a_login_request)
-        .and_return(a_successful_login_response)
-
-      authn.login(http)
-
+      successfully_login
       expect(authn).to be_logged_in
     end
 
     it "handles login failures" do
-      expect(http).to receive(:request)
-        .with(a_login_request)
-        .and_return(an_unauthorized_response)
+      stub_login_request(an_unauthorized_response)
 
       expect { authn.login(http) }.to raise_error(
         Fea::AuthenticationError, "Invalid username/password ?"
@@ -118,11 +120,11 @@ RSpec.describe Fea::Authentication do
     end
 
     it "handles random failures" do
-      expect(http).to receive(:request)
-        .with(a_login_request)
-        .and_return(a_server_error_response)
+      stub_login_request(a_server_error_response)
 
-      expect { authn.login(http) }.to raise_error(Fea::ResponseError, /InternalServerError/)
+      expect { authn.login(http) }.to raise_error(
+        Fea::ResponseError, /InternalServerError/
+      )
 
       expect(authn).not_to be_logged_in
     end
@@ -134,7 +136,7 @@ RSpec.describe Fea::Authentication do
     end
 
     it "is true when logged in" do
-      do_login
+      successfully_login
 
       expect(authn).to be_logged_in
     end
@@ -145,28 +147,24 @@ RSpec.describe Fea::Authentication do
       expect { authn.logout(http) }.to raise_error(Fea::NotAuthenticatedError)
     end
 
-    it "can logout if logged in" do
-      do_login
+    context "when logged in" do
+      before { successfully_login }
 
-      expect(http).to receive(:request)
-        .with(a_logout_request)
-        .and_return(a_succesful_logout_response)
+      it "can logout" do
+        stub_logout_request(a_succesful_logout_response)
 
-      authn.logout(http)
+        authn.logout(http)
 
-      expect(authn).not_to be_logged_in
-    end
+        expect(authn).not_to be_logged_in
+      end
 
-    it "handles random failures" do
-      do_login
+      it "handles random failures" do
+        stub_logout_request(a_server_error_response)
 
-      expect(http).to receive(:request)
-        .with(a_logout_request)
-        .and_return(a_server_error_response)
+        expect { authn.logout(http) }.to raise_error(Fea::ResponseError, /InternalServerError/)
 
-      expect { authn.logout(http) }.to raise_error(Fea::ResponseError, /InternalServerError/)
-
-      expect(authn).to be_logged_in
+        expect(authn).to be_logged_in
+      end
     end
   end
 
@@ -178,7 +176,7 @@ RSpec.describe Fea::Authentication do
     end
 
     it "can apply authentication if logged in" do
-      do_login
+      successfully_login
 
       authn.apply(req)
 
@@ -195,7 +193,7 @@ RSpec.describe Fea::Authentication do
     end
 
     it "can apply authentication if logged in" do
-      do_login
+      successfully_login
 
       authn.purge(req)
 
