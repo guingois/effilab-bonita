@@ -9,7 +9,7 @@ module Fea
   # Wrap a pair of request/response sent over the network in a single entity.
   class Exchange
     # Represent a Content-Range header.
-    PageInfo = Struct.new(:unit, :range, :size)
+    PageInfo = Struct.new(:unit, :range, :total)
 
     attr_reader :host, :port, :request, :response
 
@@ -49,9 +49,9 @@ module Fea
         unit = match_data[1]
         range_beg = Integer(match_data[2])
         range_end = Integer(match_data[3])
-        size = match_data[4] == "*" ? nil : Integer(match_data[4])
+        total = match_data[4] == "*" ? nil : Integer(match_data[4])
 
-        PageInfo.new(unit, range_beg..range_end, size)
+        PageInfo.new(unit, range_beg..range_end, total)
       end
     end
 
